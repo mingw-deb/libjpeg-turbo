@@ -1,22 +1,24 @@
 Source: libjpeg-turbo
 Priority: optional
 Maintainer: Tobias Schlemmer <keinstein@users.berlios.de>
-Build-Depends: debhelper (>= 9), autotools-dev
-Standards-Version: 3.9.8
+Build-Depends: debhelper (>= 9), autotools-dev, nasm,
+	       gcc-mingw-w64, g++-mingw-w64 (>= 1.7.1)
+Standards-Version: 4.1.1
 Section: libs
 Homepage: <insert the upstream URL, if relevant>
 #Vcs-Git: https://anonscm.debian.org/collab-maint/libjpeg-turbo.git
 #Vcs-Browser: https://anonscm.debian.org/cgit/collab-maint/libjpeg-turbo.git
 
-Package: libjpeg-turbo-dev
+Package: libjpeg-turbo-mingw-w64-dev
 Section: libdevel
 Architecture: any
-Depends: libjpeg-turboBROKEN (= ${binary:Version}), ${misc:Depends}
-Description: <insert up to 60 chars description>
- <insert long description, indented with spaces>
+Depends: libjpeg-turbo1-mingw-w64 (= ${binary:Version}), ${misc:Depends}
+Description: JPEG image codec with accelerated baseline compression and decompression (mingw-w64, development files)
+ This Package contains the development files: headers and libraries.
 
-Package: libjpeg-turboBROKEN
+Package: libjpeg-turbo1-mingw-w64
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: <insert up to 60 chars description>
- <insert long description, indented with spaces>
+Description: JPEG image codec with accelerated baseline compression and decompression (mingw-w64, runtime)
+  This Package contains the runtime DLLs.
+
