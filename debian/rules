@@ -85,6 +85,11 @@ override_dh_auto_install:
 	do \
 		pushd build-$$target && \
 		$(EXECUTE) make DESTDIR=$(CURDIR)/debian/tmp install  && \
+		for d in  $(CURDIR)/debian/tmp/usr/$${target}/lib/*.dll.a ; \
+		do \
+			$(EXECUTE) eval echo "'$$RANLIB' -D \"$$d\"" ; \
+			$(EXECUTE) $${target}-ranlib -D "$$d" ; \
+		done && \
 		popd || exit 1 ; \
 	done
 	dh_install
@@ -96,7 +101,7 @@ override_dh_installdocs-indep:
 override_dh_strip:
 	for target in $(TARGETS) ; \
 	do \
-		DEB_TARGET_GNU_TYPE="$$target" $(EXECUTE) fakeroot dh_strip ; \
+		DEB_HOST_GNU_TYPE="$$target" $(EXECUTE) fakeroot dh_strip ; \
 	done
 	#fakeroot dh_strip -plibicu$(l_SONAME) --dbg-package=libicu$(l_SONAME)-mingw-w64-dbg
 	#fakeroot dh_strip -picu-devtools --dbg-package=icu-devtools-mingw-w64-dbg
@@ -119,7 +124,7 @@ override_dh_compress:
 override_dh_makeshlibs:
 	for target in $(TARGETS) ; \
 	do \
-		$(EXECUTE) env DEB_TARGET_GNU_TYPE="$$target" fakeroot dh_makeshlibs -O --sourcedirectory=$(CURDIR) ; \
+		$(EXECUTE) env DEB_HOST_GNU_TYPE="$$target" fakeroot dh_makeshlibs -O --sourcedirectory=$(CURDIR) ; \
 	done
 
 override_dh_gencontrol:
